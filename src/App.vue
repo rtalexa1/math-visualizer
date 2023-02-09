@@ -1,30 +1,58 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <img
+      src="@/assets/images/square-math-visualizer-1.png"
+      alt="Math visualizer logo"
+      class="logo"
+    />
   </nav>
-  <router-view />
+  <div class="container">
+    <router-view />
+  </div>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-nav {
-  padding: 30px;
+* {
+  margin: 0;
+  padding: 0;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+body {
+  min-height: 100%;
+  background-color: #f2f2f2;
+  font-size: large;
+  line-height: 1.5;
+  font-family: "Cabin", sans-serif;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+@media (max-width: 768px) {
+  body {
+    font-size: medium;
   }
+}
+
+html {
+  overflow-y: scroll;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.logo {
+  width: 8em;
+  height: 8em;
 }
 </style>
