@@ -25,8 +25,8 @@
 
 body {
   min-height: 100%;
-  background-color: #f2f2f2;
-  font-size: large;
+  background-color: #f9f9f9;
+  font-size: x-large;
   line-height: 1.5;
   font-family: "Cabin", sans-serif;
 }
