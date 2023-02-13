@@ -18,18 +18,16 @@
           <input
             type="number"
             id="divisor"
-            v-model="divisorDigits"
+            v-model="divisorDigitCount"
             class="number-input"
-            placeholder="1"
             min="1"
             max="5"
           />
           <input
             type="number"
             id="dividend"
-            v-model="dividendDigits"
+            v-model="dividendDigitCount"
             class="number-input"
-            placeholder="1"
             min="1"
             max="10"
           />
@@ -44,30 +42,34 @@
     <div v-else class="problem">
       <div class="input-line">
         <span
-          v-for="digit in divisor"
+          v-for="digit in divisorArray"
           :key="digit.index"
           class="divisor-placeholder"
           >{{ digit }}</span
         >
         <span class="quotient"
-          ><span v-for="digit in dividend" :key="digit.index"
-            ><input type="number" class="quotient-digit" /></span
+          ><span v-for="index in dividendArray" :key="index"
+            ><input
+              type="number"
+              class="quotient-digit"
+              ref="quotientDigits" /></span
         ></span>
       </div>
       <div class="problem-line">
         <span class="divisor">
           <span
-            v-for="digit in divisor"
-            :key="digit.index"
+            v-for="(digit, index) in divisorArray"
+            :key="index"
             class="divisor-digit"
             >{{ digit }}</span
           >
         </span>
         <span class="dividend"
           ><span
-            v-for="digit in dividend"
-            :key="digit.index"
+            v-for="(digit, index) in dividendArray"
+            :key="index"
             class="dividend-digit"
+            ref="dividendDigits"
             >{{ digit }}</span
           ></span
         >
@@ -79,19 +81,23 @@
 </template>
 
 <script>
+import { toRaw } from "vue";
+
 export default {
   name: "LongDivision",
   data() {
     return {
-      divisorDigits: undefined,
-      dividendDigits: undefined,
-      divisor: undefined,
-      dividend: undefined,
+      divisorDigitCount: 1,
+      dividendDigitCount: 1,
+      divisorArray: undefined,
+      dividendArray: undefined,
       quotient: undefined,
       remainder: undefined,
       gettingNumberInput: true,
       currentStepText: "",
       currentDividendDigit: undefined,
+      dividendDigits: [],
+      quotientDigits: [],
     };
   },
   methods: {
@@ -100,39 +106,51 @@ export default {
       this.generateDividend();
       this.quotient = this.computeQuotient;
       this.remainder = this.computeRemainder;
-      console.log(this.divisor);
-      console.log(this.dividend);
-      console.log(this.quotient);
-      console.log(this.remainder);
       this.gettingNumberInput = false;
-      this.divide();
     },
     generateDivisor() {
       let numString = "" + this.randomNumber(1, 9).toString();
-      for (let i = 1; i < this.divisorDigits; i++) {
+      for (let i = 1; i < this.divisorDigitCount; i++) {
         numString += Math.floor(Math.random() * 9).toString();
       }
-      this.divisor = numString;
+      this.divisorArray = Array.from(numString);
     },
     generateDividend() {
       let numString = "" + this.randomNumber(1, 9).toString();
-      for (let i = 1; i < this.dividendDigits; i++) {
+      for (let i = 1; i < this.dividendDigitCount; i++) {
         numString += Math.floor(Math.random() * 9).toString();
       }
-      this.dividend = numString;
+      this.dividendArray = Array.from(numString);
     },
     randomNumber(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
     },
-    divide() {},
+    divide() {
+      toRaw(this.dividendDigits)[0].style.border = "1px solid red";
+      // this.$refs.dividendDigits[0].style.border = "1px solid red";
+      // this.$refs.quotientDigits[0].style.border = "1px solid red";
+      // for (let i = 0; i < this.dividendDigitCount.length; i++) {
+      //   this.$refs.dividendDigits[i].style.border = "1px solid red";
+      //   this.$refs.quotientDigits[i].style.border = "1px solid red";
+      // }
+    },
   },
   computed: {
     computeQuotient: function () {
-      return Math.floor(this.dividend / this.divisor);
+      return Math.floor(
+        this.dividendArray.join("") / this.divisorArray.join("")
+      );
     },
     computeRemainder: function () {
-      return this.dividend - this.divisor * this.solution;
+      return (
+        this.dividendArray.join("") - this.divisorArray.join("") * this.quotient
+      );
     },
+  },
+  updated() {
+    this.dividendDigits = this.$refs.dividendDigits;
+    this.quotientDigits = this.$refs.quotientDigits;
+    this.divide();
   },
 };
 </script>
