@@ -40,72 +40,31 @@
       </div>
     </form>
     <div v-else class="problem">
-      <div class="input-line">
-        <span
-          v-for="digit in divisorArray"
-          :key="digit.index"
-          class="divisor-placeholder"
-          >{{ digit }}</span
-        >
-        <span class="quotient"
-          ><span v-for="index in dividendArray" :key="index"
-            ><input
-              type="number"
-              class="quotient-digit"
-              ref="quotientDigits" /></span
-        ></span>
-      </div>
-      <div class="problem-line">
-        <span class="divisor">
-          <span
-            v-for="(digit, index) in divisorArray"
-            :key="index"
-            class="divisor-digit"
-            >{{ digit }}</span
-          >
-        </span>
-        <span class="dividend"
-          ><span
-            v-for="(digit, index) in dividendArray"
-            :key="index"
-            class="dividend-digit"
-            ref="dividendDigits"
-            >{{ digit }}</span
-          ></span
-        >
-        <span class="placeholder"></span>
-      </div>
+      <ProblemDisplay />
     </div>
   </div>
   <div class="current-step">Visualize the current step here</div>
 </template>
 
 <script>
-import { toRaw } from "vue";
+import ProblemDisplay from "@/components/ProblemDisplay.vue";
 
 export default {
   name: "LongDivision",
+  components: {
+    ProblemDisplay,
+  },
   data() {
     return {
       divisorDigitCount: 1,
       dividendDigitCount: 1,
-      divisorArray: undefined,
-      dividendArray: undefined,
-      quotient: undefined,
-      remainder: undefined,
       gettingNumberInput: true,
-      currentStepText: "",
-      currentDividendDigit: undefined,
-      dividendDigits: [],
-      quotientDigits: [],
     };
   },
   methods: {
     generateProblem() {
       this.generateDivisor();
       this.generateDividend();
-      this.quotient = this.computeQuotient;
-      this.remainder = this.computeRemainder;
       this.gettingNumberInput = false;
     },
     generateDivisor() {
@@ -113,44 +72,18 @@ export default {
       for (let i = 1; i < this.divisorDigitCount; i++) {
         numString += Math.floor(Math.random() * 9).toString();
       }
-      this.divisorArray = Array.from(numString);
+      this.$store.commit("setDivisorArray", Array.from(numString));
     },
     generateDividend() {
       let numString = "" + this.randomNumber(1, 9).toString();
       for (let i = 1; i < this.dividendDigitCount; i++) {
         numString += Math.floor(Math.random() * 9).toString();
       }
-      this.dividendArray = Array.from(numString);
+      this.$store.commit("setDividendArray", Array.from(numString));
     },
     randomNumber(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
     },
-    divide() {
-      toRaw(this.dividendDigits)[0].style.border = "1px solid red";
-      // this.$refs.dividendDigits[0].style.border = "1px solid red";
-      // this.$refs.quotientDigits[0].style.border = "1px solid red";
-      // for (let i = 0; i < this.dividendDigitCount.length; i++) {
-      //   this.$refs.dividendDigits[i].style.border = "1px solid red";
-      //   this.$refs.quotientDigits[i].style.border = "1px solid red";
-      // }
-    },
-  },
-  computed: {
-    computeQuotient: function () {
-      return Math.floor(
-        this.dividendArray.join("") / this.divisorArray.join("")
-      );
-    },
-    computeRemainder: function () {
-      return (
-        this.dividendArray.join("") - this.divisorArray.join("") * this.quotient
-      );
-    },
-  },
-  updated() {
-    this.dividendDigits = this.$refs.dividendDigits;
-    this.quotientDigits = this.$refs.quotientDigits;
-    this.divide();
   },
 };
 </script>
@@ -224,69 +157,6 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: xx-large;
-}
-
-.input-line {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-.divisor-placeholder {
-  opacity: 0;
-  display: inline-block;
-  margin: 3.5px;
-  width: 30px;
-  text-align: center;
-}
-
-.quotient {
-  padding-left: 5px;
-}
-
-.quotient-digit {
-  display: inline-block;
-  margin: 3.5px;
-  width: 30px;
-  height: 1.5em;
-  font: inherit;
-  font-size: large;
-}
-
-.problem-line {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-// .divisor {
-//   margin-right: 7px;
-// }
-
-.divisor-digit {
-  display: inline-block;
-  margin: 3.5px;
-  width: 30px;
-  text-align: center;
-}
-
-.dividend {
-  border-top: solid 2px;
-  border-left: solid 2px;
-  padding-left: 5px;
-}
-
-.dividend-digit {
-  display: inline-block;
-  margin: 3.5px;
-  width: 30px;
-  text-align: center;
-}
-
-.placeholder {
-  border-top: 2px solid;
-  width: 5px;
-  height: 50px;
 }
 
 .current-step {
