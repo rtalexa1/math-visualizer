@@ -25,7 +25,7 @@
     ></span>
   </div>
   <div class="problem-line">
-    <span class="divisor">
+    <span class="divisor" :class="{ highlighted: $store.state.dividing }">
       <span
         v-for="(digit, index) in $store.state.divisorArray"
         :key="index"
@@ -53,7 +53,13 @@
     >
       Start dividing
     </button>
-    <button v-if="!$store.state.dividing" class="purp-btn">Start over</button>
+    <button
+      v-if="!$store.state.dividing"
+      class="purp-btn"
+      @click="$emit('startOver')"
+    >
+      Start over
+    </button>
   </div>
 </template>
 
@@ -67,6 +73,7 @@ export default {
       quotientInput: undefined,
     };
   },
+  emits: ["startOver"],
   methods: {
     divide() {
       if (!this.$store.state.dividing) {
@@ -84,12 +91,12 @@ export default {
     highlightSpan() {
       let span =
         this.$store.state.dividendSpans[this.$store.state.dividendIndex];
-      span.style.border = "2px solid #c185fd";
+      span.style.color = "#c185fd";
     },
     removeHighlight() {
       let span =
         this.$store.state.dividendSpans[this.$store.state.dividendIndex];
-      span.style.border = "none";
+      span.style.color = "#000000";
     },
     checkQuotient(e) {
       if (e.target.value == this.$store.state.expectedQuotient) {
@@ -152,6 +159,10 @@ p {
 /* .divisor {
   margin-right: 7px;
 } */
+
+.highlighted {
+  color: #19bf16;
+}
 
 .divisor-digit {
   display: inline-block;

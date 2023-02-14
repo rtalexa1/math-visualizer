@@ -64,6 +64,9 @@ export default createStore({
     incrementDividendIndex(state) {
       state.dividendIndex++;
     },
+    resetDividendIndex(state) {
+      state.dividendIndex = 0;
+    },
     setExpectedQuotient(state, quotient) {
       state.expectedQuotient = quotient;
     },

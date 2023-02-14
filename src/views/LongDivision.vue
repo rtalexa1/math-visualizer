@@ -1,7 +1,13 @@
 <template>
   <div class="visualization-container">
     <h1>Long Division</h1>
+    <!-- <p style="font-size: medium">
+      Note: Even though it is useful to divide with divisors that are greater
+      than their dividends, this tool is made to practice problems in which the
+      divisor is less than or equal to the dividend.
+    </p> -->
     <form v-if="gettingNumberInput" @submit.prevent>
+      <p v-show="errorMessage" class="error">{{ errorMessage }}</p>
       <div class="numbers-form">
         <div class="labels">
           <label for="divisor"
@@ -39,7 +45,7 @@
       </div>
     </form>
     <div v-else class="problem">
-      <ProblemDisplay />
+      <ProblemDisplay @start-over="startOver" />
     </div>
   </div>
   <CurrentStep />
@@ -60,10 +66,16 @@ export default {
       divisorDigitCount: 1,
       dividendDigitCount: 1,
       gettingNumberInput: true,
+      errorMessage: "",
     };
   },
   methods: {
     generateProblem() {
+      if (this.divisorDigitCount > this.dividendDigitCount) {
+        this.errorMessage =
+          "Number of dividend digits should be greater than or equal to number of divisor digits";
+        return;
+      }
       this.generateDivisor();
       this.generateDividend();
       this.gettingNumberInput = false;
@@ -85,6 +97,16 @@ export default {
     randomNumber(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
     },
+    startOver() {
+      this.divisorDigitCount = 1;
+      this.dividendDigitCount = 1;
+      this.gettingNumberInput = true;
+      this.$store.commit("resetDivisorArray");
+      this.$store.commit("resetDividendArray");
+      this.$store.commit("resetQuotientSpans");
+      this.$store.commit("resetDividendSpans");
+      this.$store.commit("resetDividendIndex");
+    },
   },
 };
 </script>
@@ -102,6 +124,11 @@ export default {
   display: flex;
   justify-content: center;
   padding-top: 0.5em;
+}
+
+.error {
+  color: #ff2323;
+  font-size: medium;
 }
 
 .labels {
