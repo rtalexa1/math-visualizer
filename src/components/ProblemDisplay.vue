@@ -44,6 +44,16 @@
     >
     <span class="placeholder"></span>
   </div>
+  <ProblemNextSteps v-if="$store.state.dividendIndex >= 1" />
+  <ProblemNextSteps v-if="$store.state.dividendIndex >= 2" />
+  <ProblemNextSteps v-if="$store.state.dividendIndex >= 3" />
+  <ProblemNextSteps v-if="$store.state.dividendIndex >= 4" />
+  <ProblemNextSteps v-if="$store.state.dividendIndex >= 5" />
+  <ProblemNextSteps v-if="$store.state.dividendIndex >= 6" />
+  <ProblemNextSteps v-if="$store.state.dividendIndex >= 7" />
+  <ProblemNextSteps v-if="$store.state.dividendIndex >= 8" />
+  <ProblemNextSteps v-if="$store.state.dividendIndex >= 9" />
+  <ProblemNextSteps v-if="$store.state.dividendIndex >= 10" />
   <div class="prompt-buttons">
     <button
       v-if="!$store.state.dividing"
@@ -64,10 +74,14 @@
 </template>
 
 <script>
+import ProblemNextSteps from "./ProblemNextSteps.vue";
 import { toRaw } from "vue";
 
 export default {
   name: "ProblemDisplay",
+  components: {
+    ProblemNextSteps,
+  },
   data() {
     return {
       quotientInput: undefined,
@@ -89,26 +103,37 @@ export default {
       this.highlightSpan();
     },
     highlightSpan() {
-      let span =
-        this.$store.state.dividendSpans[this.$store.state.dividendIndex];
-      span.style.color = "#c185fd";
+      this.$store.commit("highlightCurrentSpan");
     },
-    removeHighlight() {
-      let span =
-        this.$store.state.dividendSpans[this.$store.state.dividendIndex];
-      span.style.color = "#000000";
+    removeHighlights() {
+      this.$store.commit("removeHighlights");
     },
     checkQuotient(e) {
-      if (e.target.value == this.$store.state.expectedQuotient) {
+      if (
+        e.target.value == this.$store.state.expectedQuotient &&
+        e.target.value == 0
+      ) {
+        this.expandSubDividend();
+      } else if (e.target.value == this.$store.state.expectedQuotient) {
         this.advanceDigit();
       } else {
         console.log("Wrong");
       }
     },
     advanceDigit() {
-      this.removeHighlight();
+      this.removeHighlights();
       this.$store.commit("incrementDividendIndex");
       this.divide();
+    },
+    expandSubDividend() {
+      this.$store.commit("incrementDividendIndex");
+      const divisor = this.$store.getters.divisor;
+      const currentDividend = (this.$store.state.subDividend +=
+        this.$store.state.dividendArray[this.$store.state.dividendIndex]);
+      this.$store.commit("setSubDividend", currentDividend);
+      const quotient = Math.floor(this.$store.state.subDividend / divisor);
+      this.$store.commit("setExpectedQuotient", quotient);
+      this.highlightSpan();
     },
   },
   mounted() {

@@ -70,6 +70,15 @@ export default createStore({
     setExpectedQuotient(state, quotient) {
       state.expectedQuotient = quotient;
     },
+    highlightCurrentSpan(state) {
+      let span = state.dividendSpans[state.dividendIndex];
+      span.style.color = "#c185fd";
+    },
+    removeHighlights(state) {
+      state.dividendSpans.forEach(function (span) {
+        span.style.color = "#000000";
+      });
+    },
   },
   actions: {},
   modules: {},
