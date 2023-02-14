@@ -43,16 +43,18 @@
       <ProblemDisplay />
     </div>
   </div>
-  <div class="current-step">Visualize the current step here</div>
+  <CurrentStep />
 </template>
 
 <script>
 import ProblemDisplay from "@/components/ProblemDisplay.vue";
+import CurrentStep from "@/components/CurrentStep.vue";
 
 export default {
   name: "LongDivision",
   components: {
     ProblemDisplay,
+    CurrentStep,
   },
   data() {
     return {
@@ -157,17 +159,5 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: xx-large;
-}
-
-.current-step {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: solid 2px #c185fd;
-  border-top: 0;
-  border-radius: 0 0 15px 15px;
-  width: 25em;
-  height: 5em;
 }
 </style>

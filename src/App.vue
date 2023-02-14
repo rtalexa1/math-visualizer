@@ -49,6 +49,7 @@ html {
   align-items: center;
   width: 100%;
   height: 100%;
+  padding-bottom: 5em;
 }
 
 .logo {

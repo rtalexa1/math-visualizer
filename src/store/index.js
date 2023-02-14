@@ -6,6 +6,9 @@ export default createStore({
     dividendArray: undefined,
     quotientSpans: undefined,
     dividendSpans: undefined,
+    dividing: false,
+    subDividend: undefined,
+    expectedQuotient: undefined,
   },
   getters: {
     quotient(state) {
@@ -18,6 +21,9 @@ export default createStore({
         state.dividendArray.join("") -
         state.divisorArray.join("") * getters.quotient
       );
+    },
+    divisor(state) {
+      return parseInt(state.divisorArray.join(""));
     },
   },
   mutations: {
@@ -44,6 +50,18 @@ export default createStore({
     },
     resetDividendSpans(state) {
       state.dividendSpans = undefined;
+    },
+    startDividing(state) {
+      state.dividing = true;
+    },
+    stopDividing(state) {
+      state.dividing = false;
+    },
+    setSubDividend(state, subDividend) {
+      state.subDividend = subDividend;
+    },
+    setExpectedQuotient(state, quotient) {
+      state.expectedQuotient = quotient;
     },
   },
   actions: {},
