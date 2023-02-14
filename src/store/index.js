@@ -8,6 +8,7 @@ export default createStore({
     dividendSpans: undefined,
     dividing: false,
     subDividend: undefined,
+    dividendIndex: 0,
     expectedQuotient: undefined,
   },
   getters: {
@@ -59,6 +60,9 @@ export default createStore({
     },
     setSubDividend(state, subDividend) {
       state.subDividend = subDividend;
+    },
+    incrementDividendIndex(state) {
+      state.dividendIndex++;
     },
     setExpectedQuotient(state, quotient) {
       state.expectedQuotient = quotient;

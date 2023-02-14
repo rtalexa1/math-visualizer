@@ -1,4 +1,8 @@
 <template>
+  <p style="padding-bottom: 5px">
+    Type your answer into the quotient box and press 'Enter'. If you get stuck,
+    you can look in the box below for help.
+  </p>
   <div class="input-line">
     <span
       v-for="digit in $store.state.divisorArray"
@@ -9,10 +13,15 @@
     <span class="quotient"
       ><span v-for="(digit, index) in $store.state.dividendArray" :key="index"
         ><input
-          :disabled="dividendIndex != index"
+          :disabled="
+            $store.state.dividendIndex != index || !$store.state.dividing
+          "
           type="number"
           class="quotient-digit"
-          ref="quotientDigits" /></span
+          ref="quotientDigits"
+          min="0"
+          max="9"
+          @keyup.enter="checkQuotient" /></span
     ></span>
   </div>
   <div class="problem-line">
@@ -36,9 +45,15 @@
     <span class="placeholder"></span>
   </div>
   <div class="prompt-buttons">
-    <button v-if="!$store.state.dividing" class="purp-btn" @click="divide">
+    <button
+      v-if="!$store.state.dividing"
+      class="purp-btn"
+      style="margin-bottom: 5px"
+      @click="divide"
+    >
       Start dividing
     </button>
+    <button v-if="!$store.state.dividing" class="purp-btn">Start over</button>
   </div>
 </template>
 
@@ -49,23 +64,44 @@ export default {
   name: "ProblemDisplay",
   data() {
     return {
-      // dividendDigits: [],
-      // quotientDigits: [],
-      dividendIndex: 0,
+      quotientInput: undefined,
     };
   },
   methods: {
     divide() {
-      this.$store.commit("startDividing");
+      if (!this.$store.state.dividing) {
+        this.$store.commit("startDividing");
+      }
+
       const divisor = this.$store.getters.divisor;
       const currentDividend =
-        this.$store.state.dividendArray[this.dividendIndex];
+        this.$store.state.dividendArray[this.$store.state.dividendIndex];
       this.$store.commit("setSubDividend", currentDividend);
       const quotient = Math.floor(this.$store.state.subDividend / divisor);
-
-      if (quotient != 0) {
-        this.$store.commit("setExpectedQuotient", quotient);
+      this.$store.commit("setExpectedQuotient", quotient);
+      this.highlightSpan();
+    },
+    highlightSpan() {
+      let span =
+        this.$store.state.dividendSpans[this.$store.state.dividendIndex];
+      span.style.border = "2px solid #c185fd";
+    },
+    removeHighlight() {
+      let span =
+        this.$store.state.dividendSpans[this.$store.state.dividendIndex];
+      span.style.border = "none";
+    },
+    checkQuotient(e) {
+      if (e.target.value == this.$store.state.expectedQuotient) {
+        this.advanceDigit();
+      } else {
+        console.log("Wrong");
       }
+    },
+    advanceDigit() {
+      this.removeHighlight();
+      this.$store.commit("incrementDividendIndex");
+      this.divide();
     },
   },
   mounted() {
@@ -76,6 +112,10 @@ export default {
 </script>
 
 <style>
+p {
+  font-size: large;
+}
+
 .input-line {
   display: flex;
   flex-direction: row;

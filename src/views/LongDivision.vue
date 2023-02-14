@@ -1,7 +1,6 @@
 <template>
   <div class="visualization-container">
     <h1>Long Division</h1>
-    <br />
     <form v-if="gettingNumberInput" @submit.prevent>
       <div class="numbers-form">
         <div class="labels">
@@ -95,13 +94,14 @@ export default {
   border: solid 2px #c185fd;
   border-radius: 15px 15px 0 0;
   width: 25em;
-  height: 15em;
+  min-height: 15em;
   padding: 1em;
 }
 
 .numbers-form {
   display: flex;
   justify-content: center;
+  padding-top: 0.5em;
 }
 
 .labels {
