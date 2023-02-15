@@ -10,6 +10,9 @@ export default createStore({
     subDividend: undefined,
     dividendIndex: 0,
     expectedQuotient: undefined,
+    step: undefined,
+    expectedProduct: undefined,
+    expectedDifference: undefined,
   },
   getters: {
     quotient(state) {
@@ -58,6 +61,9 @@ export default createStore({
     stopDividing(state) {
       state.dividing = false;
     },
+    setStep(state, step) {
+      state.step = step;
+    },
     setSubDividend(state, subDividend) {
       state.subDividend = subDividend;
     },
@@ -70,6 +76,12 @@ export default createStore({
     setExpectedQuotient(state, quotient) {
       state.expectedQuotient = quotient;
     },
+    setExpectedProduct(state, product) {
+      state.expectedProduct = product;
+    },
+    setExpectedDifference(state, difference) {
+      state.expectedDifference = difference;
+    },
     highlightCurrentSpan(state) {
       let span = state.dividendSpans[state.dividendIndex];
       span.style.color = "#c185fd";
@@ -80,6 +92,16 @@ export default createStore({
       });
     },
   },
-  actions: {},
+  actions: {
+    calculateExpectedProduct({ commit, state, getters }) {
+      const product = state.expectedQuotient * getters.divisor;
+      commit("setExpectedProduct", product);
+    },
+    calculateExpectedDifference({ commit, state }) {
+      const dividendDigit = state.dividendArray[state.dividendIndex];
+      const difference = dividendDigit - state.expectedProduct;
+      commit("setExpectedDifference", difference);
+    },
+  },
   modules: {},
 });

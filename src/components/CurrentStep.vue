@@ -1,6 +1,7 @@
 <template>
   <div class="current-step-container">
-    <div v-if="$store.state.dividing">
+    <div v-if="$store.state.dividing && $store.state.step === 'divide'">
+      <h2>1. Divide</h2>
       <p>
         Can
         <span class="divisor-counters"
@@ -43,6 +44,25 @@
         </button>
       </div>
     </div>
+    <div v-else-if="$store.state.step === 'multiply'">
+      <h2>2. Multiply</h2>
+      <p>Multiply the quotient digit by the divisor.</p>
+      <p>
+        <span class="dividend-counters"
+          ><u>{{ $store.state.expectedQuotient }}</u></span
+        >
+        x
+        <span class="divisor-counters"
+          ><u>{{ $store.getters.divisor }}</u></span
+        >
+      </p>
+    </div>
+    <div v-else-if="$store.state.step === 'subtract'">
+      <h2>3. Subtract</h2>
+    </div>
+    <div v-else-if="$store.state.step === 'bringDown'">
+      <h2>4. Bring down</h2>
+    </div>
   </div>
 </template>
 
@@ -65,6 +85,10 @@ export default {
   min-height: 5em;
   padding: 20px;
   text-align: center;
+}
+
+p {
+  font-size: x-large;
 }
 
 .divisor-counters {

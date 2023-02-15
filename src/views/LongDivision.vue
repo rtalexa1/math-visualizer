@@ -26,7 +26,7 @@
             v-model="divisorDigitCount"
             class="number-input"
             min="1"
-            max="5"
+            max="4"
           />
           <input
             type="number"
@@ -34,7 +34,7 @@
             v-model="dividendDigitCount"
             class="number-input"
             min="1"
-            max="10"
+            max="9"
           />
         </div>
       </div>

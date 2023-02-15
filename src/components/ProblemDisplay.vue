@@ -1,6 +1,6 @@
 <template>
-  <p style="padding-bottom: 5px">
-    Type your answer into the quotient box and press 'Enter'. If you get stuck,
+  <p style="padding-bottom: 5px; font-size: large">
+    Type your answers into the boxes and press 'Enter'. If you get stuck, you
     you can look in the box below for help.
   </p>
   <div class="input-line">
@@ -14,7 +14,9 @@
       ><span v-for="(digit, index) in $store.state.dividendArray" :key="index"
         ><input
           :disabled="
-            $store.state.dividendIndex != index || !$store.state.dividing
+            $store.state.dividendIndex != index ||
+            !$store.state.dividing ||
+            correctQuotientInput
           "
           type="number"
           class="quotient-digit"
@@ -44,7 +46,7 @@
     >
     <span class="placeholder"></span>
   </div>
-  <ProblemNextSteps v-if="$store.state.dividendIndex >= 1" />
+  <ProblemNextSteps v-if="stepNumber >= 1" />
   <ProblemNextSteps v-if="$store.state.dividendIndex >= 2" />
   <ProblemNextSteps v-if="$store.state.dividendIndex >= 3" />
   <ProblemNextSteps v-if="$store.state.dividendIndex >= 4" />
@@ -85,13 +87,37 @@ export default {
   data() {
     return {
       quotientInput: undefined,
+      stepNumber: 0,
+      correctQuotientInput: false,
     };
   },
   emits: ["startOver"],
   methods: {
+    checkQuotient(e) {
+      if (
+        e.target.value == this.$store.state.expectedQuotient &&
+        e.target.value == 0 &&
+        this.$store.state.dividendIndex == 0
+      ) {
+        this.expandSubDividend();
+        return;
+      } else if (e.target.value == this.$store.state.expectedQuotient) {
+        this.correctQuotientInput = true;
+        this.startMultiplying();
+        return;
+      } else {
+        console.log("Wrong");
+      }
+    },
+    startMultiplying() {
+      this.stepNumber++;
+      this.$store.commit("setStep", "multiply");
+      this.$store.dispatch("calculateExpectedProduct");
+    },
     divide() {
       if (!this.$store.state.dividing) {
         this.$store.commit("startDividing");
+        this.$store.commit("setStep", "divide");
       }
 
       const divisor = this.$store.getters.divisor;
@@ -107,18 +133,6 @@ export default {
     },
     removeHighlights() {
       this.$store.commit("removeHighlights");
-    },
-    checkQuotient(e) {
-      if (
-        e.target.value == this.$store.state.expectedQuotient &&
-        e.target.value == 0
-      ) {
-        this.expandSubDividend();
-      } else if (e.target.value == this.$store.state.expectedQuotient) {
-        this.advanceDigit();
-      } else {
-        console.log("Wrong");
-      }
     },
     advanceDigit() {
       this.removeHighlights();
