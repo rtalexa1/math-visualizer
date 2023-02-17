@@ -59,6 +59,16 @@
     </div>
     <div v-else-if="$store.state.step === 'subtract'">
       <h2>3. Subtract</h2>
+      <p>Subtract the product from the current dividend digit.</p>
+      <p>
+        <span class="dividend-counters"
+          ><u>{{ $store.getters.currentDividendDigit }}</u></span
+        >
+        -
+        <span class="divisor-counters"
+          ><u>{{ $store.state.expectedProduct }}</u></span
+        >
+      </p>
     </div>
     <div v-else-if="$store.state.step === 'bringDown'">
       <h2>4. Bring down</h2>

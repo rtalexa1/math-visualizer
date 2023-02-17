@@ -15,6 +15,9 @@ export default createStore({
     expectedDifference: undefined,
   },
   getters: {
+    digitColumnCount(state) {
+      return state.divisorArray.length + state.dividendArray.length;
+    },
     quotient(state) {
       return Math.floor(
         state.dividendArray.join("") / state.divisorArray.join("")
@@ -28,6 +31,9 @@ export default createStore({
     },
     divisor(state) {
       return parseInt(state.divisorArray.join(""));
+    },
+    currentDividendDigit(state) {
+      return state.dividendArray[state.dividendIndex];
     },
   },
   mutations: {
