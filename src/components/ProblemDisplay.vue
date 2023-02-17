@@ -175,6 +175,10 @@ export default {
 </script>
 
 <style>
+/* span {
+  border: solid 1px red;
+} */
+
 p {
   font-size: large;
 }

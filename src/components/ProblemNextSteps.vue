@@ -29,11 +29,13 @@ export default {
     return {
       lineOneSpans: undefined,
       lineTwoSpans: undefined,
+      margin: undefined,
     };
   },
   emits: ["resetQuotient", "displayAnswer"],
   methods: {
     populateLineOneSpans() {
+      this.setMargin();
       const index = this.$store.state.dividendIndex;
       let productSpan;
       if (index > 0) {
@@ -126,7 +128,7 @@ export default {
       this.setSubDividend();
       this.setExpectedQuotient();
       this.$store.commit("incrementDividendIndex");
-      this.$store.commit("incrementNextStepsIndex");
+      // this.$store.commit("incrementNextStepsIndex");
       const quotientInput = document.getElementById(
         `${this.$store.state.dividendIndex}`
       );
@@ -173,10 +175,66 @@ export default {
       this.$store.commit("setStep", "remainder");
       this.$emit("displayAnswer");
     },
+    calculateMargin() {
+      console.log("calculating");
+      // These figures only work with single-digit-divisors
+      // Going to have to do it all over depending on the size of the divisor
+      switch (this.$store.getters.digitColumnCount) {
+        case 2:
+          this.margin = "73px";
+          break;
+        case 3:
+          this.margin = "38px";
+          break;
+        case 4:
+          this.margin = "-3px";
+          break;
+        case 5:
+          this.margin = "-37px";
+          break;
+        case 6:
+          this.margin = "-76px";
+          break;
+        case 7:
+          this.margin = "-109px";
+          break;
+        case 8:
+          this.margin = "-147px";
+          break;
+        case 9:
+          this.margin = "-185px";
+          break;
+        case 10:
+          this.margin = "-221px";
+          break;
+        // case 11:
+        //   this.margin = "px";
+        //   break;
+        // case 12:
+        //   this.margin = "px";
+        //   break;
+        // case 13:
+        //   this.margin = "px";
+        //   break;
+        // case 14:
+        //   this.margin = "px";
+        //   break;
+      }
+    },
+    setMargin() {
+      const nextStepsContainers = document.getElementsByClassName(
+        "next-steps-container"
+      );
+
+      for (let i = 0; i < nextStepsContainers.length; i++) {
+        nextStepsContainers[i].style.marginLeft = this.margin;
+      }
+    },
   },
   mounted() {
     this.lineOneSpans = toRaw(this.$refs.extraStepsLineOne);
     this.lineTwoSpans = toRaw(this.$refs.extraStepsLineTwo);
+    this.calculateMargin();
     this.populateLineOneSpans();
   },
 };
@@ -189,6 +247,7 @@ export default {
   justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
+  margin-left: 73px;
   width: 160px;
 }
 
@@ -242,8 +301,8 @@ span {
   
 } */
 
-.border-span {
+/* .border-span {
   border: solid 1px red;
   min-height: 30px;
-}
+} */
 </style>

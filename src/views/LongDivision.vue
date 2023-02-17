@@ -12,11 +12,11 @@
         <div class="labels">
           <label for="divisor"
             >Enter number of divisor digits
-            <span style="font-size: small">(max 5)</span></label
+            <span style="font-size: small">(max 4)</span></label
           >
           <label for="dividend"
             >Enter number of divident digits
-            <span style="font-size: small">(max 10)</span></label
+            <span style="font-size: small">(max 9)</span></label
           >
         </div>
         <div class="inputs">

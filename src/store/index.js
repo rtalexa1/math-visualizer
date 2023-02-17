@@ -92,11 +92,11 @@ export default createStore({
       state.dividendIndex = 0;
     },
     setNextStepsIndex(state) {
-      state.nextStepsIndex = state.dividendArray.length;
+      state.nextStepsIndex = state.dividendArray.length + 2;
     },
-    incrementNextStepsIndex(state) {
-      state.nextStepsIndex++;
-    },
+    // incrementNextStepsIndex(state) {
+    //   state.nextStepsIndex++;
+    // },
     setExpectedQuotient(state, quotient) {
       state.expectedQuotient = quotient;
     },
