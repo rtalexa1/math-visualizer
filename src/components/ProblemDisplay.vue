@@ -23,6 +23,7 @@
           ref="quotientDigits"
           min="0"
           max="9"
+          :id="index"
           @keyup.enter="checkQuotient" /></span
     ></span>
   </div>
@@ -46,33 +47,65 @@
     >
     <span class="placeholder"></span>
   </div>
-  <ProblemNextSteps v-if="stepNumber >= 1" />
-  <ProblemNextSteps v-if="$store.state.dividendIndex >= 2" />
-  <ProblemNextSteps v-if="$store.state.dividendIndex >= 3" />
-  <ProblemNextSteps v-if="$store.state.dividendIndex >= 4" />
-  <ProblemNextSteps v-if="$store.state.dividendIndex >= 5" />
-  <ProblemNextSteps v-if="$store.state.dividendIndex >= 6" />
-  <ProblemNextSteps v-if="$store.state.dividendIndex >= 7" />
-  <ProblemNextSteps v-if="$store.state.dividendIndex >= 8" />
-  <ProblemNextSteps v-if="$store.state.dividendIndex >= 9" />
-  <ProblemNextSteps v-if="$store.state.dividendIndex >= 10" />
-  <div class="prompt-buttons">
-    <button
-      v-if="!$store.state.dividing"
-      class="purp-btn"
-      style="margin-bottom: 5px"
-      @click="divide"
-    >
+  <ProblemNextSteps
+    v-if="stepNumber >= 1"
+    @reset-quotient="correctQuotientInput = false"
+    @display-answer="displayAnswer = true"
+  />
+  <ProblemNextSteps
+    v-if="stepNumber >= 2"
+    @reset-quotient="correctQuotientInput = false"
+    @display-answer="displayAnswer = true"
+  />
+  <ProblemNextSteps
+    v-if="stepNumber >= 3"
+    @reset-quotient="correctQuotientInput = false"
+    @display-answer="displayAnswer = true"
+  />
+  <ProblemNextSteps
+    v-if="stepNumber >= 4"
+    @reset-quotient="correctQuotientInput = false"
+    @display-answer="displayAnswer = true"
+  />
+  <ProblemNextSteps
+    v-if="stepNumber >= 5"
+    @reset-quotient="correctQuotientInput = false"
+    @display-answer="displayAnswer = true"
+  />
+  <ProblemNextSteps
+    v-if="stepNumber >= 6"
+    @reset-quotient="correctQuotientInput = false"
+    @display-answer="displayAnswer = true"
+  />
+  <ProblemNextSteps
+    v-if="stepNumber >= 7"
+    @reset-quotient="correctQuotientInput = false"
+    @display-answer="displayAnswer = true"
+  />
+  <ProblemNextSteps
+    v-if="stepNumber >= 8"
+    @reset-quotient="correctQuotientInput = false"
+    @display-answer="displayAnswer = true"
+  />
+  <ProblemNextSteps
+    v-if="stepNumber >= 9"
+    @reset-quotient="correctQuotientInput = false"
+    @display-answer="displayAnswer = true"
+  />
+  <ProblemNextSteps
+    v-if="stepNumber >= 10"
+    @reset-quotient="correctQuotientInput = false"
+    @display-answer="displayAnswer = true"
+  />
+  <div v-if="!$store.state.dividing" class="prompt-buttons">
+    <button class="purp-btn" style="margin-bottom: 5px" @click="divide">
       Start dividing
     </button>
-    <button
-      v-if="!$store.state.dividing"
-      class="purp-btn"
-      @click="$emit('startOver')"
-    >
-      Start over
-    </button>
+    <button class="purp-btn" @click="$emit('startOver')">Start over</button>
   </div>
+  <p v-if="displayAnswer" style="font-size: xx-large">
+    Quotient: {{ $store.getters.quotient }}r {{ $store.getters.remainder }}
+  </p>
 </template>
 
 <script>
@@ -89,22 +122,15 @@ export default {
       quotientInput: undefined,
       stepNumber: 0,
       correctQuotientInput: false,
+      displayAnswer: false,
     };
   },
   emits: ["startOver"],
   methods: {
     checkQuotient(e) {
-      if (
-        e.target.value == this.$store.state.expectedQuotient &&
-        e.target.value == 0 &&
-        this.$store.state.dividendIndex == 0
-      ) {
-        this.expandSubDividend();
-        return;
-      } else if (e.target.value == this.$store.state.expectedQuotient) {
+      if (e.target.value == this.$store.state.expectedQuotient) {
         this.correctQuotientInput = true;
         this.startMultiplying();
-        return;
       } else {
         console.log("Wrong");
       }
@@ -121,10 +147,16 @@ export default {
       }
 
       const divisor = this.$store.getters.divisor;
-      const currentDividend =
-        this.$store.state.dividendArray[this.$store.state.dividendIndex];
+      const currentDividend = this.$store.state.dividendArray[0];
+      this.$store.commit("setNextStepsIndex");
       this.$store.commit("setSubDividend", currentDividend);
       const quotient = Math.floor(this.$store.state.subDividend / divisor);
+      const quotientInput = document.getElementById(
+        `${this.$store.state.dividendIndex}`
+      );
+      window.setTimeout(function () {
+        quotientInput.focus();
+      }, 0);
       this.$store.commit("setExpectedQuotient", quotient);
       this.highlightSpan();
     },
@@ -133,21 +165,6 @@ export default {
     },
     removeHighlights() {
       this.$store.commit("removeHighlights");
-    },
-    advanceDigit() {
-      this.removeHighlights();
-      this.$store.commit("incrementDividendIndex");
-      this.divide();
-    },
-    expandSubDividend() {
-      this.$store.commit("incrementDividendIndex");
-      const divisor = this.$store.getters.divisor;
-      const currentDividend = (this.$store.state.subDividend +=
-        this.$store.state.dividendArray[this.$store.state.dividendIndex]);
-      this.$store.commit("setSubDividend", currentDividend);
-      const quotient = Math.floor(this.$store.state.subDividend / divisor);
-      this.$store.commit("setExpectedQuotient", quotient);
-      this.highlightSpan();
     },
   },
   mounted() {

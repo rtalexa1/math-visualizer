@@ -8,11 +8,14 @@ export default createStore({
     dividendSpans: undefined,
     dividing: false,
     subDividend: undefined,
+    subDividendResolved: false,
     dividendIndex: 0,
+    nextStepsIndex: undefined,
     expectedQuotient: undefined,
     step: undefined,
     expectedProduct: undefined,
     expectedDifference: undefined,
+    highlightedSpans: [],
   },
   getters: {
     digitColumnCount(state) {
@@ -34,6 +37,9 @@ export default createStore({
     },
     currentDividendDigit(state) {
       return state.dividendArray[state.dividendIndex];
+    },
+    finalDigit(state) {
+      return state.dividendIndex == state.dividendArray.length - 1;
     },
   },
   mutations: {
@@ -73,11 +79,23 @@ export default createStore({
     setSubDividend(state, subDividend) {
       state.subDividend = subDividend;
     },
+    markSubDividendResolved(state) {
+      state.subDividendResolved = true;
+    },
+    resetSubDividendResolved(state) {
+      state.subDividendResolved = false;
+    },
     incrementDividendIndex(state) {
       state.dividendIndex++;
     },
     resetDividendIndex(state) {
       state.dividendIndex = 0;
+    },
+    setNextStepsIndex(state) {
+      state.nextStepsIndex = state.dividendArray.length;
+    },
+    incrementNextStepsIndex(state) {
+      state.nextStepsIndex++;
     },
     setExpectedQuotient(state, quotient) {
       state.expectedQuotient = quotient;
@@ -97,6 +115,16 @@ export default createStore({
         span.style.color = "#000000";
       });
     },
+    setHighlightedSpans(state, spans) {
+      spans.forEach((span) => {
+        state.highlightedSpans.push(span);
+      });
+    },
+    removeSpanHighlights(state) {
+      state.highlightedSpans.forEach(function (span) {
+        span.style.color = "#000000";
+      });
+    },
   },
   actions: {
     calculateExpectedProduct({ commit, state, getters }) {
@@ -104,8 +132,7 @@ export default createStore({
       commit("setExpectedProduct", product);
     },
     calculateExpectedDifference({ commit, state }) {
-      const dividendDigit = state.dividendArray[state.dividendIndex];
-      const difference = dividendDigit - state.expectedProduct;
+      const difference = state.subDividend - state.expectedProduct;
       commit("setExpectedDifference", difference);
     },
   },
