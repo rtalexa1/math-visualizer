@@ -121,7 +121,6 @@ export default {
       this.$store.commit("removeHighlights");
       this.$store.commit("removeSpanHighlights");
       const index = this.$store.state.dividendIndex;
-      console.log(this.lineTwoSpans);
       const newDigitSpan = this.lineTwoSpans[index + 2];
       newDigitSpan.innerText = `${this.$store.state.dividendArray[index + 1]}`;
       this.highlightNewDividend();
@@ -176,9 +175,22 @@ export default {
       this.$emit("displayAnswer");
     },
     calculateMargin() {
-      console.log("calculating");
-      // These figures only work with single-digit-divisors
-      // Going to have to do it all over depending on the size of the divisor
+      switch (this.$store.state.divisorArray.length) {
+        case 1:
+          this.calculateOneDigitMargin();
+          break;
+        case 2:
+          this.calculateTwoDigitMargin();
+          break;
+        case 3:
+          this.calculateThreeDigitMargin();
+          break;
+        case 4:
+          this.calculateFourDigitMargin();
+          break;
+      }
+    },
+    calculateOneDigitMargin() {
       switch (this.$store.getters.digitColumnCount) {
         case 2:
           this.margin = "73px";
@@ -187,13 +199,13 @@ export default {
           this.margin = "38px";
           break;
         case 4:
-          this.margin = "-3px";
+          this.margin = "0px";
           break;
         case 5:
-          this.margin = "-37px";
+          this.margin = "-38px";
           break;
         case 6:
-          this.margin = "-76px";
+          this.margin = "-73px";
           break;
         case 7:
           this.margin = "-109px";
@@ -202,25 +214,88 @@ export default {
           this.margin = "-147px";
           break;
         case 9:
-          this.margin = "-185px";
+          this.margin = "-186px";
           break;
         case 10:
           this.margin = "-221px";
           break;
-        // case 11:
-        //   this.margin = "px";
-        //   break;
-        // case 12:
-        //   this.margin = "px";
-        //   break;
-        // case 13:
-        //   this.margin = "px";
-        //   break;
-        // case 14:
-        //   this.margin = "px";
-        //   break;
       }
     },
+    calculateTwoDigitMargin() {
+      switch (this.$store.getters.digitColumnCount) {
+        case 4:
+          this.margin = "73px";
+          break;
+        case 5:
+          this.margin = "38px";
+          break;
+        case 6:
+          this.margin = "0px";
+          break;
+        case 7:
+          this.margin = "-38px";
+          break;
+        case 8:
+          this.margin = "-73px";
+          break;
+        case 9:
+          this.margin = "-109px";
+          break;
+        case 10:
+          this.margin = "-147px";
+          break;
+        case 11:
+          this.margin = "-186px";
+          break;
+      }
+    },
+    calculateThreeDigitMargin() {
+      switch (this.$store.getters.digitColumnCount) {
+        case 6:
+          this.margin = "73px";
+          break;
+        case 7:
+          this.margin = "38px";
+          break;
+        case 8:
+          this.margin = "0px";
+          break;
+        case 9:
+          this.margin = "-38px";
+          break;
+        case 10:
+          this.margin = "-73px";
+          break;
+        case 11:
+          this.margin = "-109px";
+          break;
+        case 12:
+          this.margin = "-147px";
+          break;
+      }
+    },
+    // calculateFourDigitMargin() {
+    //   switch (this.$store.getters.digitColumnCount) {
+    //     case 8:
+    //       this.margin = "73px";
+    //       break;
+    //     case 9:
+    //       this.margin = "38px";
+    //       break;
+    //     case 10:
+    //       this.margin = "0px";
+    //       break;
+    //     case 11:
+    //       this.margin = "-38px";
+    //       break;
+    //     case 12:
+    //       this.margin = "-73px";
+    //       break;
+    //     case 13:
+    //       this.margin = "px-109";
+    //       break;
+    //   }
+    // },
     setMargin() {
       const nextStepsContainers = document.getElementsByClassName(
         "next-steps-container"

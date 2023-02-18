@@ -12,7 +12,7 @@
         <div class="labels">
           <label for="divisor"
             >Enter number of divisor digits
-            <span style="font-size: small">(max 4)</span></label
+            <span style="font-size: small">(max 3)</span></label
           >
           <label for="dividend"
             >Enter number of divident digits
@@ -26,7 +26,7 @@
             v-model="divisorDigitCount"
             class="number-input"
             min="1"
-            max="4"
+            max="3"
           />
           <input
             type="number"
