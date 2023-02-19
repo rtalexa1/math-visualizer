@@ -65,7 +65,9 @@ export default {
           `product-input-${this.$store.state.dividendIndex}`
         );
         productInput.setAttribute("disabled", "");
+        productInput.style.backgroundColor = "";
         productInput.style.border = "2px solid #19bf16";
+        productInput.style.borderRadius = "0px";
         productInput.style.padding = "1px";
         productInput.style.textAlign = "right";
         this.$store.commit("setStep", "subtract");
@@ -75,7 +77,13 @@ export default {
         e.keyCode === 13 &&
         e.target.value != this.$store.state.expectedProduct
       ) {
-        console.log("Wrong");
+        const productInput = document.getElementById(
+          `product-input-${this.$store.state.dividendIndex}`
+        );
+        productInput.style.backgroundColor = "orange";
+        productInput.style.border = "solid 1px red";
+        productInput.style.borderRadius = "5px";
+        productInput.classList.add("wiggle");
       }
     },
     populateLineTwoSpans() {
@@ -103,13 +111,20 @@ export default {
         const index = this.$store.state.dividendIndex;
         const differenceInputSpan = this.lineTwoSpans[index + 1];
         differenceInputSpan.innerText = `${this.$store.state.expectedDifference}`;
+        differenceInputSpan.style.backgroundColor = "";
+        differenceInputSpan.style.border = "";
         this.$store.commit("setStep", "bringDown");
         this.bringDown();
       } else if (
         e.keyCode === 13 &&
         e.target.value != this.$store.state.expectedDifference
       ) {
-        console.log("Wrong");
+        const index = this.$store.state.dividendIndex;
+        const differenceInputSpan = this.lineTwoSpans[index + 1];
+        differenceInputSpan.style.backgroundColor = "orange";
+        differenceInputSpan.style.border = "solid 1px red";
+        differenceInputSpan.style.borderRadius = "5px";
+        differenceInputSpan.classList.add("wiggle");
       }
     },
     // Want to add animation to this function to show the number being brought down
@@ -123,6 +138,7 @@ export default {
       const index = this.$store.state.dividendIndex;
       const newDigitSpan = this.lineTwoSpans[index + 2];
       newDigitSpan.innerText = `${this.$store.state.dividendArray[index + 1]}`;
+      newDigitSpan.classList.add("bring-down");
       this.highlightNewDividend();
       this.setSubDividend();
       this.setExpectedQuotient();
@@ -137,7 +153,7 @@ export default {
       this.$emit("resetQuotient");
       setTimeout(() => {
         this.$store.commit("setStep", "divide");
-      }, 2000);
+      }, 1000);
     },
     highlightNewDividend() {
       const index = this.$store.state.dividendIndex;
@@ -274,28 +290,6 @@ export default {
           break;
       }
     },
-    // calculateFourDigitMargin() {
-    //   switch (this.$store.getters.digitColumnCount) {
-    //     case 8:
-    //       this.margin = "73px";
-    //       break;
-    //     case 9:
-    //       this.margin = "38px";
-    //       break;
-    //     case 10:
-    //       this.margin = "0px";
-    //       break;
-    //     case 11:
-    //       this.margin = "-38px";
-    //       break;
-    //     case 12:
-    //       this.margin = "-73px";
-    //       break;
-    //     case 13:
-    //       this.margin = "px-109";
-    //       break;
-    //   }
-    // },
     setMargin() {
       const nextStepsContainers = document.getElementsByClassName(
         "next-steps-container"
@@ -346,38 +340,35 @@ span {
   padding: 0 0 0 7px;
 }
 
-@keyframes bring-down {
+.bring-down {
+  animation-name: bringdown;
+  animation-duration: 1000ms;
+}
+
+@keyframes bringdown {
   from {
-    color: white;
+    height: 8px;
+    opacity: 30%;
+  }
+
+  25% {
+    height: 6px;
+    opacity: 50%;
   }
 
   50% {
-    color: brown;
+    height: 4px;
+    opacity: 70%;
+  }
+
+  75% {
+    height: 2px;
+    opacity: 90%;
   }
 
   to {
-    color: orange;
+    height: 0;
+    opacity: 100%;
   }
 }
-
-/* .one-digit {
-
-} */
-
-/* .two-digit {
-
-} */
-
-.three-digit {
-  width: 37px;
-}
-
-/* .four-digit {
-  
-} */
-
-/* .border-span {
-  border: solid 1px red;
-  min-height: 30px;
-} */
 </style>

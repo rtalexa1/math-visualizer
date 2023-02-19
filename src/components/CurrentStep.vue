@@ -36,12 +36,31 @@
         </span>
       </div>
       <div class="yes-no-buttons">
-        <button class="purp-btn" style="width: 4em; margin-right: 5px">
+        <button
+          :disabled="answeredCorrectly"
+          class="purp-btn"
+          style="width: 4em; margin-right: 5px"
+          id="yes-button"
+          @click="checkAnswer('yes')"
+        >
           Yes
         </button>
-        <button class="purp-btn" style="width: 4em; margin-left: 5px">
+        <button
+          :disabled="answeredCorrectly"
+          class="purp-btn"
+          style="width: 4em; margin-left: 5px"
+          id="no-button"
+          @click="checkAnswer('no')"
+        >
           No
         </button>
+      </div>
+      <div v-if="divisible" style="padding-top: 1em">
+        <p>How many times?</p>
+        <p>Type your answer into the quotient line.</p>
+      </div>
+      <div v-if="notDivisible" style="padding-top: 1em">
+        <p>The quotient is 0</p>
       </div>
     </div>
     <div v-else-if="$store.state.step === 'multiply'">
@@ -62,7 +81,7 @@
       <p>Subtract the product from the current dividend digit.</p>
       <p>
         <span class="dividend-counters"
-          ><u>{{ $store.getters.currentDividendDigit }}</u></span
+          ><u>{{ $store.state.subDividend }}</u></span
         >
         -
         <span class="divisor-counters"
@@ -79,6 +98,42 @@
 <script>
 export default {
   name: "CurrentStep",
+  data() {
+    return {
+      divisible: false,
+      notDivisible: false,
+      answeredCorrectly: false,
+    };
+  },
+  methods: {
+    checkAnswer(answer) {
+      if (answer === "yes" && this.$store.state.expectedQuotient > 0) {
+        this.answeredCorrectly = true;
+        this.divisible = true;
+      } else if (answer === "yes" && this.$store.state.expectedQuotient === 0) {
+        const button = document.getElementById("yes-button");
+        button.classList.add("wiggle");
+      } else if (answer === "no" && this.$store.state.expectedQuotient > 0) {
+        const button = document.getElementById("no-button");
+        button.classList.add("wiggle");
+      } else if (answer === "no" && this.$store.state.expectedQuotient === 0) {
+        this.answeredCorrectly = true;
+        this.notDivisible = true;
+      }
+    },
+    resetAll() {
+      this.divisible = false;
+      this.notDivisible = false;
+      this.answeredCorrectly = false;
+    },
+  },
+  watch: {
+    "$store.state.step"(newVal, oldVal) {
+      if (oldVal === "multiply") {
+        this.resetAll();
+      }
+    },
+  },
 };
 </script>
 
@@ -109,12 +164,9 @@ p {
   color: #c185fd;
 }
 
-/* small {
-  font-size: medium;
-} */
-
 .counters-container {
   display: flex;
+  justify-content: center;
   margin: 0.5em 0;
 }
 
@@ -150,5 +202,10 @@ p {
   display: flex;
   justify-content: center;
   padding-top: 5px;
+}
+
+button:disabled {
+  opacity: 50%;
+  cursor: default;
 }
 </style>

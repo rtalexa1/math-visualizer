@@ -129,10 +129,18 @@ export default {
   methods: {
     checkQuotient(e) {
       if (e.target.value == this.$store.state.expectedQuotient) {
+        const quotientSpan =
+          this.$store.state.quotientSpans[this.$store.state.dividendIndex];
+        quotientSpan.style.backgroundColor = "";
+        quotientSpan.style.border = "solid 1px #19bf16";
         this.correctQuotientInput = true;
         this.startMultiplying();
       } else {
-        console.log("Wrong");
+        const quotientSpan =
+          this.$store.state.quotientSpans[this.$store.state.dividendIndex];
+        quotientSpan.style.backgroundColor = "orange";
+        quotientSpan.style.border = "solid 1px red";
+        quotientSpan.classList.add("wiggle");
       }
     },
     startMultiplying() {
@@ -175,10 +183,6 @@ export default {
 </script>
 
 <style>
-/* span {
-  border: solid 1px red;
-} */
-
 p {
   font-size: large;
 }
@@ -187,6 +191,7 @@ p {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  flex-wrap: nowrap;
 }
 
 .divisor-placeholder {
@@ -215,10 +220,6 @@ p {
   flex-direction: row;
   justify-content: space-evenly;
 }
-
-/* .divisor {
-  margin-right: 7px;
-} */
 
 .highlighted {
   color: #19bf16;
@@ -257,5 +258,34 @@ p {
   align-items: center;
   margin-top: 1em;
   width: 10em;
+}
+
+.wiggle {
+  animation-name: wiggle;
+  animation-duration: 300ms;
+}
+
+@keyframes wiggle {
+  from {
+    margin-right: 0;
+  }
+
+  25% {
+    margin-right: 20px;
+  }
+
+  50% {
+    margin-right: 0;
+  }
+
+  75% {
+    margin-right: 0;
+    margin-left: 20px;
+  }
+
+  to {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 </style>
