@@ -103,9 +103,12 @@
     </button>
     <button class="purp-btn" @click="$emit('startOver')">Start over</button>
   </div>
-  <p v-if="displayAnswer" style="font-size: xx-large; margin-top: 5px">
-    Quotient: {{ $store.getters.quotient }}r {{ $store.getters.remainder }}
-  </p>
+  <div v-if="displayAnswer" class="wrapped-problem">
+    <p style="font-size: xx-large">
+      Quotient: {{ $store.getters.quotient }}r {{ $store.getters.remainder }}
+    </p>
+    <button class="purp-btn" @click="$emit('startOver')">Start over</button>
+  </div>
 </template>
 
 <script>
@@ -287,5 +290,12 @@ p {
     margin-left: 0;
     margin-right: 0;
   }
+}
+
+.wrapped-problem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
 }
 </style>

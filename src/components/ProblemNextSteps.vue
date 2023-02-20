@@ -188,7 +188,6 @@ export default {
       differenceInputSpan.innerText = `${this.$store.state.expectedDifference}`;
       differenceInputSpan.style.border = "2px solid #19bf16";
       this.$store.commit("setStep", "remainder");
-      this.$store.commit("reset");
       this.$emit("displayAnswer");
     },
     calculateMargin() {

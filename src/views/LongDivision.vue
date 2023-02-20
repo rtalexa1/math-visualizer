@@ -2,7 +2,6 @@
   <div class="visualization-container">
     <div class="component-header">
       <h1>Long Division</h1>
-      <router-link to="/" class="home-link">Home</router-link>
     </div>
     <form v-if="gettingNumberInput" @submit.prevent>
       <p v-show="errorMessage" class="error">{{ errorMessage }}</p>
@@ -99,11 +98,7 @@ export default {
       this.divisorDigitCount = 1;
       this.dividendDigitCount = 1;
       this.gettingNumberInput = true;
-      this.$store.commit("resetDivisorArray");
-      this.$store.commit("resetDividendArray");
-      this.$store.commit("resetQuotientSpans");
-      this.$store.commit("resetDividendSpans");
-      this.$store.commit("resetDividendIndex");
+      this.$store.commit("resetAll");
     },
   },
 };
@@ -121,10 +116,6 @@ export default {
 .component-header {
   display: flex;
   justify-content: space-between;
-}
-
-.home-link {
-  margin: 20px 20px 0 0;
 }
 
 .numbers-form {

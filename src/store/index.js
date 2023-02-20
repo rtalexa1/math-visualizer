@@ -125,7 +125,7 @@ export default createStore({
         span.style.color = "#000000";
       });
     },
-    reset(state) {
+    resetAll(state) {
       state.divisorArray = undefined;
       state.dividendArray = undefined;
       state.quotientSpans = undefined;

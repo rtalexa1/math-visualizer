@@ -5,6 +5,11 @@
       alt="Math visualizer logo"
       class="logo"
     />
+    <div class="nav-content">
+      <router-link to="/" class="home-link" v-if="$route.path !== '/'"
+        >Home</router-link
+      >
+    </div>
   </nav>
   <div class="container">
     <router-view />
@@ -42,6 +47,17 @@ html {
   height: 100%;
 }
 
+nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.home-link {
+  margin: 0.75em 0 0 9.5em;
+  font-size: xxx-large;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -50,6 +66,13 @@ html {
   width: 100%;
   height: 100%;
   padding-bottom: 5em;
+  background-size: 100%;
+  background-image: linear-gradient(
+      45deg,
+      rgba(193, 133, 253, 0.5) 0%,
+      rgba(249, 249, 249, 0.5) 100%
+    ),
+    url("./assets/images/landing-page-background.jpg");
 }
 
 .logo {
