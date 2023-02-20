@@ -103,7 +103,7 @@
     </button>
     <button class="purp-btn" @click="$emit('startOver')">Start over</button>
   </div>
-  <p v-if="displayAnswer" style="font-size: xx-large">
+  <p v-if="displayAnswer" style="font-size: xx-large; margin-top: 5px">
     Quotient: {{ $store.getters.quotient }}r {{ $store.getters.remainder }}
   </p>
 </template>

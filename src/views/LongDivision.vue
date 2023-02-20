@@ -1,11 +1,9 @@
 <template>
   <div class="visualization-container">
-    <h1>Long Division</h1>
-    <!-- <p style="font-size: medium">
-      Note: Even though it is useful to divide with divisors that are greater
-      than their dividends, this tool is made to practice problems in which the
-      divisor is less than or equal to the dividend.
-    </p> -->
+    <div class="component-header">
+      <h1>Long Division</h1>
+      <router-link to="/" class="home-link">Home</router-link>
+    </div>
     <form v-if="gettingNumberInput" @submit.prevent>
       <p v-show="errorMessage" class="error">{{ errorMessage }}</p>
       <div class="numbers-form">
@@ -118,6 +116,15 @@ export default {
   width: 25em;
   min-height: 15em;
   padding: 1em;
+}
+
+.component-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.home-link {
+  margin: 20px 20px 0 0;
 }
 
 .numbers-form {

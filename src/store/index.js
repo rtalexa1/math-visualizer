@@ -125,6 +125,17 @@ export default createStore({
         span.style.color = "#000000";
       });
     },
+    reset(state) {
+      state.divisorArray = undefined;
+      state.dividendArray = undefined;
+      state.quotientSpans = undefined;
+      state.dividendSpans = undefined;
+      state.dividing = false;
+      state.subDividend = undefined;
+      state.subDividendResolved = false;
+      state.dividendIndex = 0;
+      state.nextStepsIndex = undefined;
+    },
   },
   actions: {
     calculateExpectedProduct({ commit, state, getters }) {

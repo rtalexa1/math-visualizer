@@ -188,6 +188,7 @@ export default {
       differenceInputSpan.innerText = `${this.$store.state.expectedDifference}`;
       differenceInputSpan.style.border = "2px solid #19bf16";
       this.$store.commit("setStep", "remainder");
+      this.$store.commit("reset");
       this.$emit("displayAnswer");
     },
     calculateMargin() {
@@ -347,27 +348,12 @@ span {
 
 @keyframes bringdown {
   from {
-    height: 8px;
+    transform: translateY(-70px);
     opacity: 30%;
   }
 
-  25% {
-    height: 6px;
-    opacity: 50%;
-  }
-
-  50% {
-    height: 4px;
-    opacity: 70%;
-  }
-
-  75% {
-    height: 2px;
-    opacity: 90%;
-  }
-
   to {
-    height: 0;
+    transform: translateY(0px);
     opacity: 100%;
   }
 }

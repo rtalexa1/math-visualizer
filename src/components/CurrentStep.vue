@@ -91,6 +91,13 @@
     </div>
     <div v-else-if="$store.state.step === 'bringDown'">
       <h2>4. Bring down</h2>
+      <p>Bring down the next digit of the dividend</p>
+    </div>
+    <div v-else-if="$store.state.step === 'remainder'">
+      <h2>Remainder</h2>
+      <p>
+        The remainder is what's left when there are no more digits to divide
+      </p>
     </div>
   </div>
 </template>
