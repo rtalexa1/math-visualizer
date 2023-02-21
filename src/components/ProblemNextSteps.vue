@@ -120,11 +120,19 @@ export default {
         e.target.value != this.$store.state.expectedDifference
       ) {
         const index = this.$store.state.dividendIndex;
-        const differenceInputSpan = this.lineTwoSpans[index + 1];
-        differenceInputSpan.style.backgroundColor = "orange";
-        differenceInputSpan.style.border = "solid 1px red";
-        differenceInputSpan.style.borderRadius = "5px";
-        differenceInputSpan.classList.add("wiggle");
+        const differenceInput = document.getElementById(
+          `difference-input-${index}`
+        );
+        differenceInput.style.backgroundColor = "orange";
+        differenceInput.style.border = "solid 1px red";
+        differenceInput.style.borderRadius = "5px";
+        differenceInput.classList.add("wiggle");
+        // const index = this.$store.state.dividendIndex;
+        // const differenceInputSpan = this.lineTwoSpans[index + 1];
+        // differenceInputSpan.style.backgroundColor = "orange";
+        // differenceInputSpan.style.border = "solid 1px red";
+        // differenceInputSpan.style.borderRadius = "5px";
+        // differenceInputSpan.classList.add("wiggle");
       }
     },
     // Want to add animation to this function to show the number being brought down
@@ -186,7 +194,7 @@ export default {
       const index = this.$store.state.dividendIndex;
       const differenceInputSpan = this.lineTwoSpans[index + 1];
       differenceInputSpan.innerText = `${this.$store.state.expectedDifference}`;
-      differenceInputSpan.style.border = "2px solid #19bf16";
+      differenceInputSpan.style.color = "#19bf16";
       this.$store.commit("setStep", "remainder");
       this.$emit("displayAnswer");
     },

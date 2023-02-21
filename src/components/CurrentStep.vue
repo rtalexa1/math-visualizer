@@ -150,6 +150,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 1.5em;
   border: solid 2px #c185fd;
   border-top: 0;
   border-radius: 0 0 15px 15px;
@@ -174,6 +175,7 @@ p {
 .counters-container {
   display: flex;
   justify-content: center;
+  align-content: flex-start;
   margin: 0.5em 0;
 }
 

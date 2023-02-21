@@ -1,19 +1,19 @@
 <template>
   <nav>
-    <img
-      src="@/assets/images/square-math-visualizer-1.png"
-      alt="Math visualizer logo"
-      class="logo"
-    />
-    <div class="nav-content">
-      <router-link to="/" class="home-link" v-if="$route.path !== '/'"
-        >Home</router-link
-      >
-    </div>
+    <router-link to="/"
+      ><img
+        src="@/assets/images/square-math-visualizer-1.png"
+        alt="Math visualizer logo"
+        class="logo"
+    /></router-link>
   </nav>
   <div class="container">
     <router-view />
   </div>
+  <footer>
+    <span>Copyright 2023 RT Alexander</span> |
+    <span>Contact: rtalexa1@gmail.com</span>
+  </footer>
 </template>
 
 <style lang="scss">
@@ -50,7 +50,8 @@ html {
 nav {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
+  max-height: 5em;
 }
 
 .home-link {
@@ -65,18 +66,17 @@ nav {
   align-items: center;
   width: 100%;
   height: 100%;
-  padding-bottom: 5em;
-  background-size: 100%;
-  background-image: linear-gradient(
-      45deg,
-      rgba(193, 133, 253, 0.5) 0%,
-      rgba(249, 249, 249, 0.5) 100%
-    ),
-    url("./assets/images/landing-page-background.jpg");
 }
 
 .logo {
-  width: 8em;
-  height: 8em;
+  width: 5em;
+  height: 5em;
+}
+
+footer {
+  padding: 2px 10px;
+  background: #f9f9f9;
+  font-size: medium;
+  text-align: center;
 }
 </style>

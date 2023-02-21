@@ -265,7 +265,7 @@ p {
 
 .wiggle {
   animation-name: wiggle;
-  animation-duration: 300ms;
+  animation-duration: 700ms;
 }
 
 @keyframes wiggle {
@@ -273,17 +273,40 @@ p {
     margin-right: 0;
   }
 
-  25% {
-    margin-right: 20px;
+  10% {
+    margin-right: 15px;
+  }
+
+  20% {
+    margin-right: 0;
+  }
+
+  30% {
+    margin-right: 0;
+    margin-left: 15px;
+  }
+
+  40% {
+    margin-right: 0;
+    margin-left: 0;
   }
 
   50% {
+    margin-right: 15px;
+  }
+
+  60% {
     margin-right: 0;
   }
 
-  75% {
+  70% {
     margin-right: 0;
-    margin-left: 20px;
+    margin-left: 15px;
+  }
+
+  80% {
+    margin-right: 0;
+    margin-left: 0;
   }
 
   to {
