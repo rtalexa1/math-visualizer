@@ -1,5 +1,5 @@
 <template>
-  <p style="padding-bottom: 5px; font-size: large">
+  <p style="padding-bottom: 5px">
     Type your answers into the boxes and press 'Enter'. If you get stuck, you
     you can look in the box below for help.
   </p>
@@ -104,7 +104,7 @@
     <button class="purp-btn" @click="$emit('startOver')">Start over</button>
   </div>
   <div v-if="displayAnswer" class="wrapped-problem">
-    <p style="font-size: xx-large">
+    <p>
       Quotient: {{ $store.getters.quotient }}r {{ $store.getters.remainder }}
     </p>
     <button class="purp-btn" @click="$emit('startOver')">Start over</button>
@@ -320,5 +320,30 @@ p {
   flex-direction: column;
   align-items: center;
   margin-top: 5px;
+}
+
+.wrapped-problem p {
+  font-size: xx-large;
+}
+
+@media (max-width: 768px) {
+  .quotient-digit,
+  .dividend-digit,
+  .divisor-digit,
+  .divisor-placeholder {
+    margin: 1px;
+    width: 22px;
+    font-size: medium;
+  }
+
+  .divisor,
+  .dividend,
+  .placeholder {
+    height: 25px;
+  }
+
+  .wrapped-problem p {
+    font-size: medium;
+  }
 }
 </style>

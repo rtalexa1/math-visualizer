@@ -4,7 +4,7 @@
       <h2>What is Math Visualizer?</h2>
       <p style="margin-bottom: 5px">
         We help you learn math by walking you through each step of the skill you
-        want to learn. We give you a hand, but the work and the learning are all
+        want to learn. We'll give you a hand, but the work and the learning are
         yours!
       </p>
       <h2>Click a link to visualize and practice a skill</h2>
@@ -55,5 +55,35 @@ export default {
 
 li {
   margin-left: 1em;
+}
+
+@media (max-width: 1025px) {
+  .home-display {
+    margin: 1em;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-background {
+    background: #f9f9f9;
+  }
+
+  .home-display {
+    margin: 0 auto 1em auto;
+    box-shadow: 0 0 0 0;
+    border: solid 5px #3e007b;
+    width: 300px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 300px) {
+  .home-display {
+    margin: 0 auto 1em auto;
+    box-shadow: 0 0 0 0;
+    border: solid 5px #3e007b;
+    width: 250px;
+    height: 400px;
+  }
 }
 </style>

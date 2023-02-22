@@ -113,6 +113,13 @@ export default {
   padding: 1em;
 }
 
+@media (max-width: 768px) {
+  .visualization-container {
+    width: 22em;
+    font-size: medium;
+  }
+}
+
 .component-header {
   display: flex;
   justify-content: space-between;
@@ -162,7 +169,7 @@ export default {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   border: solid 2px #ffffff;
   border-radius: 5px;
-  width: 60%;
+  width: 12em;
   padding: 0.4em;
   color: #ffffff;
   background: #c185fd;
@@ -184,5 +191,15 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: xx-large;
+}
+
+@media (max-width: 768px) {
+  p {
+    font-size: small;
+  }
+
+  .problem {
+    font-size: medium;
+  }
 }
 </style>

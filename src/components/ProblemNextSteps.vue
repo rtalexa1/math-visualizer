@@ -51,9 +51,16 @@ export default {
       const productInput = document.getElementById(`product-input-${index}`);
       productInput.focus();
       productInput.addEventListener("keyup", this.checkProduct);
-      if (this.$store.state.dividendIndex > 0) {
+      if (this.$store.state.dividendIndex > 0 && window.innerWidth >= 768) {
         productSpan.style.width = "74px";
         productInput.style.width = "60px";
+      } else if (
+        this.$store.state.dividendIndex > 0 &&
+        window.innerWidth < 768
+      ) {
+        productSpan.style.width = "50px";
+        // productSpan.style.border = "solid 2px red";
+        productInput.style.width = "44px";
       }
     },
     checkProduct(e) {
@@ -127,15 +134,8 @@ export default {
         differenceInput.style.border = "solid 1px red";
         differenceInput.style.borderRadius = "5px";
         differenceInput.classList.add("wiggle");
-        // const index = this.$store.state.dividendIndex;
-        // const differenceInputSpan = this.lineTwoSpans[index + 1];
-        // differenceInputSpan.style.backgroundColor = "orange";
-        // differenceInputSpan.style.border = "solid 1px red";
-        // differenceInputSpan.style.borderRadius = "5px";
-        // differenceInputSpan.classList.add("wiggle");
       }
     },
-    // Want to add animation to this function to show the number being brought down
     bringDown() {
       const productInput = document.getElementById(
         `product-input-${this.$store.state.dividendIndex}`
@@ -198,23 +198,20 @@ export default {
       this.$store.commit("setStep", "remainder");
       this.$emit("displayAnswer");
     },
-    calculateMargin() {
+    calculateFullSizedMargin() {
       switch (this.$store.state.divisorArray.length) {
         case 1:
-          this.calculateOneDigitMargin();
+          this.calculateFullSizedOneDigitMargin();
           break;
         case 2:
-          this.calculateTwoDigitMargin();
+          this.calculateFullSizedTwoDigitMargin();
           break;
         case 3:
-          this.calculateThreeDigitMargin();
-          break;
-        case 4:
-          this.calculateFourDigitMargin();
+          this.calculateFullSizedThreeDigitMargin();
           break;
       }
     },
-    calculateOneDigitMargin() {
+    calculateFullSizedOneDigitMargin() {
       switch (this.$store.getters.digitColumnCount) {
         case 2:
           this.margin = "73px";
@@ -245,7 +242,7 @@ export default {
           break;
       }
     },
-    calculateTwoDigitMargin() {
+    calculateFullSizedTwoDigitMargin() {
       switch (this.$store.getters.digitColumnCount) {
         case 4:
           this.margin = "73px";
@@ -273,7 +270,7 @@ export default {
           break;
       }
     },
-    calculateThreeDigitMargin() {
+    calculateFullSizedThreeDigitMargin() {
       switch (this.$store.getters.digitColumnCount) {
         case 6:
           this.margin = "73px";
@@ -298,6 +295,103 @@ export default {
           break;
       }
     },
+    calculateMinimizedMargin() {
+      switch (this.$store.state.divisorArray.length) {
+        case 1:
+          this.calculateMinimizedOneDigitMargin();
+          break;
+        case 2:
+          this.calculateMinimizedTwoDigitMargin();
+          break;
+        case 3:
+          this.calculateMinimizedThreeDigitMargin();
+          break;
+      }
+    },
+    calculateMinimizedOneDigitMargin() {
+      switch (this.$store.getters.digitColumnCount) {
+        case 2:
+          this.margin = "99px";
+          break;
+        case 3:
+          this.margin = "75px";
+          break;
+        case 4:
+          this.margin = "51px";
+          break;
+        case 5:
+          this.margin = "27px";
+          break;
+        case 6:
+          this.margin = "3px";
+          break;
+        case 7:
+          this.margin = "-21px";
+          break;
+        case 8:
+          this.margin = "-45px";
+          break;
+        case 9:
+          this.margin = "-69px";
+          break;
+        case 10:
+          this.margin = "-93px";
+          break;
+      }
+    },
+    calculateMinimizedTwoDigitMargin() {
+      switch (this.$store.getters.digitColumnCount) {
+        case 4:
+          this.margin = "99px";
+          break;
+        case 5:
+          this.margin = "75px";
+          break;
+        case 6:
+          this.margin = "51px";
+          break;
+        case 7:
+          this.margin = "27px";
+          break;
+        case 8:
+          this.margin = "3px";
+          break;
+        case 9:
+          this.margin = "-21px";
+          break;
+        case 10:
+          this.margin = "-45px";
+          break;
+        case 11:
+          this.margin = "-69px";
+          break;
+      }
+    },
+    calculateMinimizedThreeDigitMargin() {
+      switch (this.$store.getters.digitColumnCount) {
+        case 6:
+          this.margin = "99px";
+          break;
+        case 7:
+          this.margin = "75px";
+          break;
+        case 8:
+          this.margin = "51px";
+          break;
+        case 9:
+          this.margin = "27px";
+          break;
+        case 10:
+          this.margin = "3px";
+          break;
+        case 11:
+          this.margin = "-21px";
+          break;
+        case 12:
+          this.margin = "-45px";
+          break;
+      }
+    },
     setMargin() {
       const nextStepsContainers = document.getElementsByClassName(
         "next-steps-container"
@@ -311,7 +405,11 @@ export default {
   mounted() {
     this.lineOneSpans = toRaw(this.$refs.extraStepsLineOne);
     this.lineTwoSpans = toRaw(this.$refs.extraStepsLineTwo);
-    this.calculateMargin();
+    if (window.innerWidth > 768) {
+      this.calculateFullSizedMargin();
+    } else {
+      this.calculateMinimizedMargin();
+    }
     this.populateLineOneSpans();
   },
 };
@@ -362,6 +460,13 @@ span {
   to {
     transform: translateY(0px);
     opacity: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  span {
+    margin: 1px;
+    width: 22px;
   }
 }
 </style>

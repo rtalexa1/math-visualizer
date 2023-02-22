@@ -160,6 +160,13 @@ export default {
   text-align: center;
 }
 
+@media (max-width: 768px) {
+  .current-step-container {
+    width: 22em;
+    font-size: medium;
+  }
+}
+
 p {
   font-size: x-large;
 }
@@ -182,6 +189,7 @@ p {
 .counters {
   display: flex;
   justify-content: center;
+  align-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
   border: 2px solid black;

@@ -29,17 +29,12 @@
 }
 
 body {
+  overflow: scroll;
   min-height: 100%;
   background-color: #f9f9f9;
   font-size: x-large;
   line-height: 1.5;
   font-family: "Cabin", sans-serif;
-}
-
-@media (max-width: 768px) {
-  body {
-    font-size: medium;
-  }
 }
 
 html {
@@ -78,5 +73,15 @@ footer {
   background: #f9f9f9;
   font-size: medium;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: medium;
+  }
+
+  footer {
+    font-size: small;
+  }
 }
 </style>
