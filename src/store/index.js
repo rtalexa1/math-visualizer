@@ -135,6 +135,7 @@ export default createStore({
       state.subDividendResolved = false;
       state.dividendIndex = 0;
       state.nextStepsIndex = undefined;
+      state.step = undefined;
     },
   },
   actions: {
