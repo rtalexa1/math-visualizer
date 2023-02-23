@@ -28,7 +28,7 @@ export default {
 <style>
 .home-background {
   width: 100%;
-  height: 100%;
+  min-height: 32em;
   background-size: 100%;
   background-image: linear-gradient(
       45deg,
@@ -43,7 +43,7 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  margin: 1em 1em 1em 6em;
+  margin: 4em 0 0 4em;
   box-shadow: 12px 12px 0 0 #3e007b;
   border: solid 2px #3e007b;
   border-radius: 15px;
