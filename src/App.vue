@@ -13,6 +13,18 @@
   <footer>
     <span>Copyright 2023 RT Alexander</span> |
     <span>Contact: rtalexa1@gmail.com</span>
+    <p v-if="$route.path === '/'">
+      Photo by
+      <a
+        href="https://unsplash.com/@cdc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+        >CDC</a
+      >
+      on
+      <a
+        href="https://unsplash.com/photos/GDokEYnOfnE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+        >Unsplash</a
+      >
+    </p>
   </footer>
 </template>
 
@@ -73,6 +85,10 @@ footer {
   background: #f9f9f9;
   font-size: medium;
   text-align: center;
+}
+
+footer p {
+  font-size: inherit;
 }
 
 @media (max-width: 768px) {
